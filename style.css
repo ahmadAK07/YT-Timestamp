@@ -29,6 +29,7 @@
 }
 .sites{
     min-width: 100%;
+    padding: 20px 0px;
 }
 ul{
     width: 100%;
@@ -78,5 +79,20 @@ li button{
 .site-btn{
     cursor: pointer;
     display: flex;
+    align-items: center;
+    justify-content: space-around;
     gap: 6px;
+    font-size: 16px;
+}
+.clear-btn{
+    border: none;
+    outline: none;
+    background: #222;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 2px;
+    width: 60%;
+    margin: 0px auto;
+    font-size: 15px;
+    display: block;
 }

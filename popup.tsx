@@ -105,6 +105,9 @@ function IndexPopup() {
 
   let handleDelete = (time) => {
     let updatedTimes = times.filter((t) => t !== time);
+    if(updatedTimes.length == 0){
+      updateVideoUrlList();
+    }
     setTimes(updatedTimes);
     saveTimeInStorage(url, updatedTimes);
   };
@@ -113,8 +116,26 @@ function IndexPopup() {
       url: url
      })
   }
-
+  
+  let updateVideoUrlList = async () => {
+    let updatedVideoUrlList = videoUrls.filter((video) => video.url !== url);
+    setVideoUrls(updatedVideoUrlList);
+    await storage.set("videoUrlList", JSON.stringify(updatedVideoUrlList));
+  }
    
+  let clearAll = async () => {
+    const userConfirmed = window.confirm("Are you sure you want to reset? This will delete all your bookmarks.");
+
+    if (userConfirmed) {
+        await storage.clear();
+        setTimes([]);
+        setVideoUrls([]);
+        alert("All bookmarks have been cleared.");
+    } else {
+        alert("Operation canceled.");
+    }
+};
+
   return (
     <div className="container">
       <div className="btn-group">
@@ -151,6 +172,7 @@ function IndexPopup() {
         <h3>There are no bookmarked videos.</h3>
         )}
       </ul>
+      {videoUrls.length > 0 ? <button className="clear-btn" onClick={clearAll}>Clear All</button> : null}
      </div>
       </div>
     </div>

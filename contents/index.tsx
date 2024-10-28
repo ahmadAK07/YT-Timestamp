@@ -1,4 +1,4 @@
-import type { PlasmoCSConfig, PlasmoGetInlineAnchor } from "plasmo";
+import type { PlasmoCSConfig, PlasmoGetInlineAnchor, PlasmoGetStyle } from "plasmo";
 import React, { useEffect, useState } from "react";
 
 export const config: PlasmoCSConfig = {
@@ -6,8 +6,27 @@ export const config: PlasmoCSConfig = {
 };
 
 export const getInlineAnchor: PlasmoGetInlineAnchor = async () => ({
-  element: document.querySelector(".ytp-time-wrapper")
+  element: document.querySelector(".ytp-chrome-controls .ytp-left-controls")
 });
+
+export const getStyle: PlasmoGetStyle = () => {
+  const style = document.createElement("style")
+  style.textContent = `
+     .yt-timestamp-btn{
+      border: none;
+      outline: none;
+      background: transparent;
+      transform: translateY(8px);
+      cursor: pointer;
+      color: red;
+    }
+    .yt-timestamp-btn svg{
+      width: 24px;
+      color: red;
+    }
+  `
+  return style
+}
 
 // Move this outside the component to ensure it only runs once
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -56,14 +75,8 @@ let Btn = () => {
     <div>
       <button
         onClick={handleClick}
-        style={{
-          backgroundColor: "pink",
-          color: "#222",
-          fontSize: "16px",
-          transform: "translate(100px, -35px)"
-        }}
-      >
-        Add
+        className="yt-timestamp-btn"      >
+        <svg fill="currentColor" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
       </button>
     </div>
   );
